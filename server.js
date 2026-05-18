@@ -19,7 +19,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 const CLIENT_URL = " https://overwrite-glitch-epiphany.ngrok-free.dev"
-const RP_ID = "localhost"
+const RP_ID = "overwrite-glitch-epiphany.ngrok-free.dev"
 
 app.use(cors({ origin: CLIENT_URL, credentials: true }))
 
