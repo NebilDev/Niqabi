@@ -116,13 +116,16 @@ app.get("/init-auth", async (req, res) => {
       userId: user.id,
       challenge: options.challenge,
     }),
-    { httpOnly: true, maxAge: 60000, secure: true },
+    { httpOnly: true, maxAge: 60000, secure: true, sameSite: "none" },
   );
 
   res.json(options);
 });
 
 app.post("/verify-auth", async (req, res) => {
+  if (!req.cookies.authInfo) {
+    return res.status(400).json({ error: "Authentication info not found" });
+  }
   const authInfo = JSON.parse(req.cookies.authInfo);
 
   if (!authInfo) {
