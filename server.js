@@ -46,13 +46,17 @@ app.get("/init-register", async (req, res) => {
       email,
       challenge: options.challenge,
     }),
-    { httpOnly: true, maxAge: 60000, secure: true },
+    { httpOnly: true, maxAge: 60000, secure: true, sameSite: "none" },
   );
 
   res.json(options);
 });
 
 app.post("/verify-register", async (req, res) => {
+  if (!req.cookies.regInfo) {
+    return res.status(400).json({ error: "Registration info not found" });
+  }
+
   const regInfo = JSON.parse(req.cookies.regInfo);
 
   if (!regInfo) {
